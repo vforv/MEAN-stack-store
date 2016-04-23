@@ -16,12 +16,12 @@ module.exports = function(wagner) {
 		Category: Category,
 		Product: Product,
 		User: User
-	}
+	};
 
 	_.each(models, function(value, key) {
 		wagner.factory(key, function() {
 			return value;
-		})
+		});
 	});
 
 	return models;

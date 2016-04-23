@@ -3,7 +3,7 @@ function setupAuth(User, app) {
 	var facebookStrategy = require("passport-facebook").Strategy;
 
 	passport.serializeUser(function(user, done){
-		done(null, user._id)
+		done(null, user._id);
 	});
 
 	passport.deserializeUser(function(id, done){
@@ -58,7 +58,7 @@ function setupAuth(User, app) {
 		passport.authenticate('facebook', {failureRedirect: '/fail'}),
 		function(req,res) {
 			res.send("Welcome " + req.user.profile.username);
-		})
+		});
 }
 
 module.exports = setupAuth;

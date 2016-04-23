@@ -1,9 +1,13 @@
 var express = require("express");
-
+var cors = require('cors');
 var wagner = require("wagner-core");
 var app = express();
 
+app.use(cors());
+
 require ('./models')(wagner);
+require('./dependencies')(wagner);
+
 
 wagner.invoke(require('./auth'), {app: app});
 

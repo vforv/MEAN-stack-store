@@ -169,6 +169,21 @@ module.exports = function (wagner) {
         };
 
     }));
+    
+    api.get("/product/text/:query", wagner.invoke(function(Product){
+		return function(req, res) {
+			Product
+				.find({
+					$text: {$search : req.params.query}
+				},
+				{
+					score: {$meta: 'textScore'}
+				})
+				.sort({score:{$meta: 'textScore'}})
+				.limit(20)
+				.exec(handleMany.bind(null, 'products', res));
+		};
+	}));
 
     return api;
 };
@@ -190,6 +205,8 @@ function handleOne(property, res, error, result) {
     var json = {};
     json[property] = result;
     res.json(json);
+
+
 }
 
 

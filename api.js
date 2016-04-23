@@ -34,6 +34,7 @@ module.exports = function(wagner) {
 		}
 	}));
 
+	//MY PROFILE
 	api.get('/me', function(req,res) {
 		if(!req.user) {
 			return res
@@ -69,6 +70,7 @@ module.exports = function(wagner) {
 		}
 	}));
 	
+	//GET CATEGORY BY ID
 	api.get('/category/parent/:id', wagner.invoke(function(Category){
        return function(req,res) {
        	Category
@@ -111,7 +113,20 @@ module.exports = function(wagner) {
 		}
 	}));
 
-
+	api.get("/product/text/:query", wagner.invoke(function(Product){
+		return function(req, res) {
+			Product
+				.find({
+					$text: {$search : req.params.query}
+				},
+				{
+					score: {$meta: 'textScore'}
+				})
+				.sort({score:{$meta: 'textScore'}})
+				.limit(20)
+				.exec(handleMany.bind(null, 'products', res));
+		};
+	}));
 
 	return api;
 }

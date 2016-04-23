@@ -281,6 +281,27 @@ describe('Test API', function() {
 			});
 		});
 	});
+
+
+	it("Search for products", function(done){
+		Product.create(products,function(error, product){
+			assert.ifError(error);
+
+			var url = URL_ROOT + "/product/text/Asus"
+			superagent
+				.get(url, function(error, res) {
+					assert.ifError(error);
+
+					var result;
+					assert.doesNotThrow(function() {
+						result = JSON.parse(res.text);
+					});
+
+					assert.equal(result.products[0].name,"Asus");
+					done();
+				});
+		});
+	});
 });
 
 

@@ -32,11 +32,15 @@ var productSchema = {
 	}
 };
 
-module.exports = new mongoose.Schema(productSchema);
+
+
+var schema = new mongoose.Schema(productSchema);
+module.exports = schema;
+schema.index({name: 'text'});
 module.exports.productSchema = productSchema;
 
 var currencySymbols = {
 	'USD': '$',
 	'EUR': '€',
 	'GBP': '£'
-}
+};
